@@ -1,22 +1,12 @@
-var dropzone = $("#dropzone");
+Dropzone.autoDiscover = false;
 
-dropzone.on(
-  "drag dragstart dragend dragover dragenter dragleave drop",
-  function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-);
-
-dropzone.on("dragover dragenter", function () {
-  $(this).addClass("is-dragover");
-});
-dropzone.on("dragleave dragend drop", function () {
-  $(this).removeClass("is-dragover");
+const dropzoneFormulario = document.querySelector("#dropzone");
+const dropzone = new Dropzone(dropzoneFormulario, {
+  url: "upload.php",
+  autoProcessQueue: false,
 });
 
-dropzone.on("drop", function (e) {
-  var files = e.originalEvent.dataTransfer.files;
-  // Now select your file upload field
-  // $('input_field_file').prop('files',files)
+const enviarBoton = document.querySelector("#enviar");
+enviarBoton.addEventListener("click", () => {
+  dropzone.processQueue();
 });
