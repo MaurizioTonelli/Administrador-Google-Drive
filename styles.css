@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Noto+Sans:wght@400;700&display=swap");
+:root {
+  --main-bg-color: #566feb;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  font-family: "Montserrat", sans-serif;
+}
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+.encabezado {
+  background-color: var(--main-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.encabezado img {
+  max-width: 50px;
+  margin-left: 30px;
+}
+.encabezado h1 {
+  font-size: 2em;
+  color: white;
+}
+.encabezado h1 > p {
+  font-size: 0.7em;
+  font-weight: 100;
+  color: rgb(181, 195, 236);
+}
+.formulario {
+  display: flex;
+  flex-direction: column;
+}
