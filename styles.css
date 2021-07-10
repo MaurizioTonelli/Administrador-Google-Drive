@@ -3,6 +3,8 @@
   --main-bg-color: #566feb;
   --main-element-color: #42a856;
   --main-element-color-dark: #2e773d;
+  --main-yellow: #ddc124;
+  --main-yellow-dark: #978418;
 }
 * {
   box-sizing: border-box;
@@ -41,6 +43,7 @@ body {
 }
 .contenedor-archivos {
   margin: 40px;
+  margin-bottom: 10px;
   width: 90%;
 }
 .formulario {
@@ -51,7 +54,8 @@ body {
   display: flex;
   justify-content: center;
 }
-#enviar {
+#enviar,
+#abrir-folder-drive {
   width: 100%;
   border: none;
   font-family: "Noto Sans", sans-serif;
@@ -64,4 +68,23 @@ body {
 #enviar:hover {
   background-color: var(--main-element-color-dark);
   cursor: pointer;
+}
+#abrir-folder-drive {
+  width: 90%;
+  background-color: var(--main-yellow);
+  text-align: center;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+}
+#abrir-folder-drive:hover {
+  background-color: var(--main-yellow-dark);
+  cursor: pointer;
+}
+
+#dropzone-mensaje {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  font-family: "Noto Sans", sans-serif;
 }
