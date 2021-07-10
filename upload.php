@@ -6,19 +6,18 @@ putenv('GOOGLE_APPLICATION_CREDENTIALS=credentials.json');
 
 
 
-function uploadFile($service, $folderId, $filePath, $fileName){
+function uploadFile($service, $folderId, $filePath, $fileName, $mimeType){
     $file = new Google_Service_Drive_DriveFile();
     $file->setName($fileName);
     
     $file->setParents(array($folderId));
-    $file->setDescription('archivo subido desde php');
-    $file->setMimeType('image/png');
+    $file->setMimeType($mimeType);
     
     $result = $service->files->create(
         $file, 
         array(
             'data' => file_get_contents($filePath),
-            'mimeType' => 'image/png',
+            'mimeType' => $mimeType,
             'uploadType' => 'media',
         )
     );
@@ -28,12 +27,13 @@ function uploadFiles($service, $folderId){
     $ds = DIRECTORY_SEPARATOR;
     $storeFolder = 'uploads';   
     if (!empty($_FILES)) {
-        $tempFile = $_FILES['file']['tmp_name'];                
+        $tempFile = $_FILES['file']['tmp_name'];   
+        $mimeType = $_FILES['file']['type'];             
         $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  
         $fileName = $_FILES['file']['name'];
         $targetFile =  $targetPath. $fileName;
         move_uploaded_file($tempFile,$targetFile);
-        uploadFile($service, $folderId, $targetFile, $fileName);
+        uploadFile($service, $folderId, $targetFile, $fileName, $mimeType);
     }
 }
 function addFolder($service, $parentFolderId, $folderName){
@@ -70,8 +70,8 @@ $client->useApplicationDefaultCredentials();
 $client->setScopes(['https://www.googleapis.com/auth/drive.file']);
 try{
     $service = new Google_Service_Drive($client);
-    deleteFilesInFolder($service);
-    //uploadFiles($service, $folderId);
+    //deleteFilesInFolder($service);
+    uploadFiles($service, $folderId);
 }catch(Google_Service_Exception $gs){
     $m = json_decode($gs->getMessage());
     echo $m->error->message;
