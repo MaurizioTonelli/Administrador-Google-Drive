@@ -15,18 +15,41 @@
         <h1><p>Administrador</p> Google Drive</h1>
         <img src="./images/Google_Drive_logo.png" alt="">
     </div>
-    <div id="dropzone-test"></div>
-
-    <form action="upload.php"
-      class="dropzone" id="dropzone">
-      <div class="fallback">
-        <input name="file" type="file" multiple />
-      </div>
-    </form>
-    <div class="contenedor-boton">
-
-      <button id="enviar">Enviar archivos a Drive</button>
+    <div id="dropzone-mensaje">
+      Se permite subir un máximo de 50 archivos a la vez
     </div>
+    <div class="contenedor-principal-archivos">
+      <div class="contenedor-archivos">
+        <form action="upload.php"
+          class="dropzone" id="dropzone" enctype="multipart/form-data">
+          <div class="dz-message" data-dz-message><span>Arrastra o selecciona archivos aquí</span></div>
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
+        </form>
+        <div class="contenedor-boton">
+    
+          <button id="enviar">Enviar archivos a Drive</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      Dropzone.autoDiscover = false;
+
+      const dropzoneFormulario = document.querySelector("#dropzone");
+      const dropzone = new Dropzone(dropzoneFormulario, {
+        url: "upload.php",
+        autoProcessQueue: false,
+        parallelUploads: 10,
+        maxFiles: 10,
+      });
+
+      const enviarBoton = document.querySelector("#enviar");
+      enviarBoton.addEventListener("click", () => {
+        dropzone.processQueue();
+      });
+
+    </script>
     <script src="index.js"></script>
 </body>
 </html>

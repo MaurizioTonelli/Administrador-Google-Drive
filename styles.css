@@ -35,6 +35,14 @@ body {
   font-weight: 100;
   color: rgb(181, 195, 236);
 }
+.contenedor-principal-archivos {
+  display: flex;
+  justify-content: center;
+}
+.contenedor-archivos {
+  margin: 40px;
+  width: 90%;
+}
 .formulario {
   display: flex;
   flex-direction: column;
@@ -50,6 +58,8 @@ body {
   padding: 10px;
   color: white;
   background-color: var(--main-element-color);
+  transition: all 0.25s ease-in-out;
+  margin-top: 5px;
 }
 #enviar:hover {
   background-color: var(--main-element-color-dark);
