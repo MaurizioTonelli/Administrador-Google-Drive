@@ -5,7 +5,6 @@ include_once __DIR__ . '/vendor/autoload.php';
 putenv('GOOGLE_APPLICATION_CREDENTIALS=credentials.json');
 
 
-
 function uploadFile($service, $folderId, $filePath, $fileName, $mimeType){
     $file = new Google_Service_Drive_DriveFile();
     $file->setName($fileName);
@@ -43,6 +42,7 @@ function addFolder($service, $parentFolderId, $folderName){
     $file->setMimeType("application/vnd.google-apps.folder");
 
     $result = $service->files->create($file);
+    header("Refresh:0; url=index.php");
 }
 
 function printFilesInFolder($service) {
@@ -61,22 +61,64 @@ function deleteFilesInFolder($service){
             print "An error ocurred: " . $e->getMessage();
         }
     }
+    header("Refresh:0; url=index.php");
+}
+//HELPER
+
+function getGoogleDriveClient(){
+    $client = new Google_Client();
+    $client->useApplicationDefaultCredentials();
+    $client->setScopes(['https://www.googleapis.com/auth/drive.file']);
+    return $client;
+}
+
+// GET functions
+
+function getAllFiles(){
+    $client = getGoogleDriveClient();
+    $service = new Google_Service_Drive($client);
+    return $service->files->listFiles();
 }
 
 $folderId = "1ow35_Di38XxzLliGmhMYOUWZdMVMzK89";
 
-$client = new Google_Client();
-$client->useApplicationDefaultCredentials();
-$client->setScopes(['https://www.googleapis.com/auth/drive.file']);
-try{
-    $service = new Google_Service_Drive($client);
-    //deleteFilesInFolder($service);
-    uploadFiles($service, $folderId);
-}catch(Google_Service_Exception $gs){
-    $m = json_decode($gs->getMessage());
-    echo $m->error->message;
-}catch(Exception $e){
-    echo $e->getMessage();
+if(isset($_POST["archivos"])){
+    $client = getGoogleDriveClient();
+    try{
+        $service = new Google_Service_Drive($client);
+        uploadFiles($service, $folderId);
+    }catch(Google_Service_Exception $gs){
+        $m = json_decode($gs->getMessage());
+        echo $m->error->message;
+    }catch(Exception $e){
+        echo $e->getMessage();
+    }
+}
+
+if(isset($_POST["borrar-archivos"])){
+    $client = getGoogleDriveClient();
+    try{
+        $service = new Google_Service_Drive($client);
+        deleteFilesInFolder($service, $folderId);
+    }catch(Google_Service_Exception $gs){
+        $m = json_decode($gs->getMessage());
+        echo $m->error->message;
+    }catch(Exception $e){
+        echo $e->getMessage();
+    }
+}
+
+if(isset($_POST["agregar-carpeta"])){
+    $client = getGoogleDriveClient();
+    try{
+        $service = new Google_Service_Drive($client);
+        addFolder($service, $folderId, $_POST["nombre"]);
+    }catch(Google_Service_Exception $gs){
+        $m = json_decode($gs->getMessage());
+        echo $m->error->message;
+    }catch(Exception $e){
+        echo $e->getMessage();
+    }
 }
 
 ?> 
