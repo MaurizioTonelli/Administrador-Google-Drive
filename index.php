@@ -65,6 +65,10 @@
                     "<div class=\"archivo\" data-name=\"".$elem->name."\" data-id=\"".$elem->id."\" data-mimeType=\"".$elem->mimeType."\">".
                       "<img />
                       <a href=\"https://drive.google.com/file/d/".$elem->id."/view\" target=\"_blank\">".$elem->name."</a>".
+                      "<form action=\"upload.php\" method=\"POST\">
+                        <input type=\"hidden\" name=\"archivo-id\" value=\"".$elem->id."\"/>
+                        <input type=\"submit\" name=\"borrar-archivo\" value=\"Eliminar\" class=\"borrar-archivo\"/>
+                      </form>".
                     "</div>";
                 } 
             ?>

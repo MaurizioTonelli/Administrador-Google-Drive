@@ -31,6 +31,9 @@ archivos.forEach((archivo) => {
     const aTag = archivo.querySelector("a");
     archivo.removeChild(aTag);
 
+    const deleteButton = archivo.querySelector("form");
+    archivo.removeChild(deleteButton);
+
     const fileNameTag = document.createElement("p");
     fileNameTag.textContent = archivo.dataset.name;
     archivo.appendChild(fileNameTag);

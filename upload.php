@@ -63,6 +63,15 @@ function deleteFilesInFolder($service){
     }
     header("Refresh:0; url=index.php");
 }
+
+function deleteFile($service, $fileId){
+    try{
+        $service->files->delete($fileId);
+    }catch(Exception $e){
+        print "An error ocurred: " . $e->getMessage();
+    }
+    header("Refresh:0; url=index.php");
+}
 //HELPER
 
 function getGoogleDriveClient(){
@@ -121,4 +130,16 @@ if(isset($_POST["agregar-carpeta"])){
     }
 }
 
+if(isset($_POST["borrar-archivo"])){
+    $client = getGoogleDriveClient();
+    try{
+        $service = new Google_Service_Drive($client);
+        deleteFile($service, $_POST["archivo-id"]);
+    }catch(Google_Service_Exception $gs){
+        $m = json_decode($gs->getMessage());
+        echo $m->error->message;
+    }catch(Exception $e){
+        echo $e->getMessage();
+    }
+}
 ?> 
